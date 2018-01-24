@@ -1,8 +1,4 @@
-/**
-* LIGHTBOX SLIDESHOW
-* Trigger JavaScript slideshow using baguetteBox.js, no jQuery required
-* If screen is smaller than 800px, hide left/right arrow buttons and use swipe
-*/ 
+// Initialize slideshow using baguetteBox.js 
 
 // Find all instances of .gallery
 var baguetteBoxGallery = document.getElementsByClassName('gallery');
@@ -13,8 +9,8 @@ for (var i = 0; i < baguetteBoxGallery.length; i++) {
     baguetteBoxGallery[i].classList.add("baguetteBox" + (i+1));
 }
 
-// Run up to 3 instances of slideshow on a single page
-// Follow the pattern to have more or less if needed
+// Run up to 5 instances of slideshow on a single page
+// TO DO: maybe find a less repetitive method
 var baguetteBoxOne = document.getElementsByClassName('baguetteBox1');
 if (baguetteBoxOne.length > 0) {
     baguetteBox.run('.baguetteBox1');
@@ -33,4 +29,9 @@ if (baguetteBoxThree.length > 0) {
 var baguetteBoxFour = document.getElementsByClassName('baguetteBox4');
 if (baguetteBoxFour.length > 0) {
     baguetteBox.run('.baguetteBox4');
+}
+
+var baguetteBoxFour = document.getElementsByClassName('baguetteBox5');
+if (baguetteBoxFour.length > 0) {
+    baguetteBox.run('.baguetteBox5');
 }

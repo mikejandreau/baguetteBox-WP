@@ -21,7 +21,7 @@ test 1
 ![Alt text](ttps://www.dropbox.com/s/65zphlgpab8h06x/baguetteboxWPaltText.jpg?dl=0 "Optional title")
 
 test 2
-![Alt test](ttps://www.dropbox.com/s/65zphlgpab8h06x/baguetteboxWPaltText.jpg "Optional title")
+![Alt test](ttps://www.dropbox.com/s/65zphlgpab8h06x/baguetteboxWPaltText.jpg?raw=1 "Optional title")
 
 ## Usage
 

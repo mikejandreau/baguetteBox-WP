@@ -1,12 +1,9 @@
-/* 
- * baguetteBox.js
- * @author  feimosi
- * @version %%INJECT_VERSION%%
- * @url https://github.com/feimosi/baguetteBox.js
- */
+// baguetteBox.js
+// @author  feimosi
+// @version 1.10.0
+// @url https://github.com/feimosi/baguetteBox.js
 
-/* global define, module */
-
+// global define, module 
 (function (root, factory) {
     'use strict';
     if (typeof define === 'function' && define.amd) {
@@ -37,16 +34,16 @@
     var options = {},
         defaults = {
             captions: true,
+            buttons: 'auto',
             fullScreen: false,
             noScrollbars: false,
+            bodyClass: 'baguetteBox-open',
             titleTag: false,
-            buttons: 'auto',
             async: false,
             preload: 2,
             animation: 'slideIn',
             afterShow: null,
             afterHide: null,
-            // callback when image changes with `currentIndex` and `imagesElements.length` as parameters
             onChange: null,
             overlayBackgroundColor: 'rgba(0,0,0,.8)'
         };
@@ -58,6 +55,8 @@
     var currentGallery = [];
     // Current image index inside the slider
     var currentIndex = 0;
+    // Visibility of the overlay
+    var isOverlayVisible = false;
     // Touch event start position (for slide gesture)
     var touch = {};
     // If set to true ignore touch events because animation was already fired
@@ -123,6 +122,9 @@
         }
         touchFlag = false;
     };
+    var contextmenuHandler = function() {
+        touchendHandler();
+    };
 
     var trapFocusInsideOverlay = function(event) {
         if (overlay.style.display === 'block' && (overlay.contains && !overlay.contains(event.target))) {
@@ -159,11 +161,12 @@
     function run(selector, userOptions) {
         // Fill supports object
         supports.transforms = testTransformsSupport();
-        supports.svg = testSVGSupport();
+        supports.svg = testSvgSupport();
+        supports.passiveEvents = testPassiveEventsSupport();
 
         buildOverlay();
         removeFromCache(selector);
-        bindImageClickListeners(selector, userOptions);
+        return bindImageClickListeners(selector, userOptions);
     }
 
     function bindImageClickListeners(selector, userOptions) {
@@ -190,7 +193,9 @@
 
             // Filter 'a' elements from those not linking to images
             tagsNodeList = [].filter.call(tagsNodeList, function(element) {
-                return regex.test(element.href);
+                if (element.className.indexOf(userOptions && userOptions.ignoreClass) === -1) {
+                    return regex.test(element.href);
+                }
             });
             if (tagsNodeList.length === 0) {
                 return;
@@ -212,6 +217,8 @@
             });
             selectorData.galleries.push(gallery);
         });
+
+        return selectorData.galleries;
     }
 
     function clearCachedData() {
@@ -301,23 +308,27 @@
     }
 
     function bindEvents() {
+        var options = supports.passiveEvents ? { passive: true } : null;
         bind(overlay, 'click', overlayClickHandler);
         bind(previousButton, 'click', previousButtonClickHandler);
         bind(nextButton, 'click', nextButtonClickHandler);
         bind(closeButton, 'click', closeButtonClickHandler);
-        bind(overlay, 'touchstart', touchstartHandler);
-        bind(overlay, 'touchmove', touchmoveHandler);
+        bind(slider, 'contextmenu', contextmenuHandler);
+        bind(overlay, 'touchstart', touchstartHandler, options);
+        bind(overlay, 'touchmove', touchmoveHandler, options);
         bind(overlay, 'touchend', touchendHandler);
         bind(document, 'focus', trapFocusInsideOverlay, true);
     }
 
     function unbindEvents() {
+        var options = supports.passiveEvents ? { passive: true } : null;
         unbind(overlay, 'click', overlayClickHandler);
         unbind(previousButton, 'click', previousButtonClickHandler);
         unbind(nextButton, 'click', nextButtonClickHandler);
         unbind(closeButton, 'click', closeButtonClickHandler);
-        unbind(overlay, 'touchstart', touchstartHandler);
-        unbind(overlay, 'touchmove', touchmoveHandler);
+        unbind(slider, 'contextmenu', contextmenuHandler);
+        unbind(overlay, 'touchstart', touchstartHandler, options);
+        unbind(overlay, 'touchmove', touchmoveHandler, options);
         unbind(overlay, 'touchend', touchendHandler);
         unbind(document, 'focus', trapFocusInsideOverlay, true);
     }
@@ -411,6 +422,9 @@
         // Fade in overlay
         setTimeout(function() {
             overlay.className = 'visible';
+            if (options.bodyClass && document.body.classList) {
+                document.body.classList.add(options.bodyClass);
+            }
             if (options.afterShow) {
                 options.afterShow();
             }
@@ -420,6 +434,7 @@
         }
         documentLastFocus = document.activeElement;
         initFocus();
+        isOverlayVisible = true;
     }
 
     function initFocus() {
@@ -465,11 +480,15 @@
         setTimeout(function() {
             overlay.style.display = 'none';
             exitFullscreen();
+            if (options.bodyClass && document.body.classList) {
+                document.body.classList.remove(options.bodyClass);
+            }
             if (options.afterHide) {
                 options.afterHide();
             }
+            documentLastFocus && documentLastFocus.focus(); // jshint ignore:line
+            isOverlayVisible = false;
         }, 500);
-        documentLastFocus.focus();
     }
 
     function loadImage(index, callback) {
@@ -478,7 +497,7 @@
 
         // Return if the index exceeds prepared images in the overlay
         // or if the current gallery has been changed / closed
-        if (imageContainer === undefined || galleryItem === undefined) {
+        if (typeof imageContainer === 'undefined' || typeof galleryItem === 'undefined') {
             return;
         }
 
@@ -489,14 +508,13 @@
             }
             return;
         }
-        
+
         // Get element reference, optional caption and source path
-        // For caption this gets either data-caption, link title, or img alt text
         var imageElement = galleryItem.imageElement;
         var thumbnailElement = imageElement.getElementsByTagName('img')[0];
         var imageCaption = typeof options.captions === 'function' ?
-                            options.captions.call(currentGallery, imageElement) :
-                            imageElement.getAttribute('data-caption') || imageElement.title || thumbnailElement.alt;
+            options.captions.call(currentGallery, imageElement) :
+            imageElement.getAttribute('data-caption') || imageElement.title;
         var imageSrc = getImageSrc(imageElement);
 
         // Prepare figure element
@@ -569,46 +587,62 @@
 
     // Return false at the right end of the gallery
     function showNextImage() {
-        var returnValue;
-        // Check if next image exists
-        if (currentIndex <= imagesElements.length - 2) {
-            currentIndex++;
-            updateOffset();
-            preloadNext(currentIndex);
-            returnValue = true;
-        } else if (options.animation) {
-            slider.className = 'bounce-from-right';
-            setTimeout(function() {
-                slider.className = '';
-            }, 400);
-            returnValue = false;
-        }
-        if (options.onChange) {
-            options.onChange(currentIndex, imagesElements.length);
-        }
-        return returnValue;
+        return show(currentIndex + 1);
     }
 
     // Return false at the left end of the gallery
     function showPreviousImage() {
-        var returnValue;
-        // Check if previous image exists
-        if (currentIndex >= 1) {
-            currentIndex--;
-            updateOffset();
-            preloadPrev(currentIndex);
-            returnValue = true;
-        } else if (options.animation) {
-            slider.className = 'bounce-from-left';
-            setTimeout(function() {
-                slider.className = '';
-            }, 400);
-            returnValue = false;
+        return show(currentIndex - 1);
+    }
+
+    /**
+     * Move the gallery to a specific index
+     * @param `index` {number} - the position of the image
+     * @param `gallery` {array} - gallery which should be opened, if omitted assumes the currently opened one
+     * @return {boolean} - true on success or false if the index is invalid
+     */
+    function show(index, gallery) {
+        if (!isOverlayVisible && index >= 0 && index < gallery.length) {
+            prepareOverlay(gallery, options);
+            showOverlay(index);
+            return true;
         }
+        if (index < 0) {
+            if (options.animation) {
+                bounceAnimation('left');
+            }
+            return false;
+        }
+        if (index >= imagesElements.length) {
+            if (options.animation) {
+                bounceAnimation('right');
+            }
+            return false;
+        }
+
+        currentIndex = index;
+        loadImage(currentIndex, function() {
+            preloadNext(currentIndex);
+            preloadPrev(currentIndex);
+        });
+        updateOffset();
+
         if (options.onChange) {
             options.onChange(currentIndex, imagesElements.length);
         }
-        return returnValue;
+
+        return true;
+    }
+
+    /**
+     * Triggers the bounce animation
+     * @param {('left'|'right')} direction - Direction of the movement
+     */
+    function bounceAnimation(direction) {
+        slider.className = 'bounce-from-' + direction;
+        setTimeout(function() {
+            slider.className = '';
+        }, 400);
     }
 
     function updateOffset() {
@@ -616,17 +650,15 @@
         if (options.animation === 'fadeIn') {
             slider.style.opacity = 0;
             setTimeout(function() {
-                /* jshint -W030 */
                 supports.transforms ?
                     slider.style.transform = slider.style.webkitTransform = 'translate3d(' + offset + ',0,0)'
-                    : slider.style.left = offset;
+                    : slider.style.left = offset; // jshint ignore:line
                 slider.style.opacity = 1;
             }, 400);
         } else {
-            /* jshint -W030 */
             supports.transforms ?
                 slider.style.transform = slider.style.webkitTransform = 'translate3d(' + offset + ',0,0)'
-                : slider.style.left = offset;
+                : slider.style.left = offset; // jshint ignore:line
         }
     }
 
@@ -637,10 +669,25 @@
     }
 
     // Inline SVG test
-    function testSVGSupport() {
+    function testSvgSupport() {
         var div = create('div');
         div.innerHTML = '<svg/>';
         return (div.firstChild && div.firstChild.namespaceURI) === 'http://www.w3.org/2000/svg';
+    }
+
+    // Borrowed from https://github.com/seiyria/bootstrap-slider/pull/680/files
+    function testPassiveEventsSupport() {
+        var passiveEvents = false;
+        try {
+            var opts = Object.defineProperty({}, 'passive', {
+                get: function() {
+                    passiveEvents = true;
+                }
+            });
+            window.addEventListener('test', null, opts);
+        } catch (e) { /* Silence the error and continue */ }
+
+        return passiveEvents;
     }
 
     function preloadNext(index) {
@@ -661,9 +708,9 @@
         });
     }
 
-    function bind(element, event, callback, useCapture) {
+    function bind(element, event, callback, options) {
         if (element.addEventListener) {
-            element.addEventListener(event, callback, useCapture);
+            element.addEventListener(event, callback, options);
         } else {
             // IE8 fallback
             element.attachEvent('on' + event, function(event) {
@@ -675,9 +722,9 @@
         }
     }
 
-    function unbind(element, event, callback, useCapture) {
+    function unbind(element, event, callback, options) {
         if (element.removeEventListener) {
-            element.removeEventListener(event, callback, useCapture);
+            element.removeEventListener(event, callback, options);
         } else {
             // IE8 fallback
             element.detachEvent('on' + event, callback);
@@ -704,8 +751,10 @@
 
     return {
         run: run,
-        destroy: destroyPlugin,
+        show: show,
         showNext: showNextImage,
-        showPrevious: showPreviousImage
+        showPrevious: showPreviousImage,
+        hide: hideOverlay,
+        destroy: destroyPlugin
     };
 }));

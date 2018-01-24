@@ -43,6 +43,7 @@ For WordPress, that means you can do this:
 ## License
 
 BaguetteBox.js Copyright (c) 2018 [feimosi](https://github.com/feimosi/)
+
 BaguetteBox WP plugin Copyright (c) 2018 [Mike Jandreau](https://github.com/mikejandreau/)
 
 This content is released under the [MIT License](https://opensource.org/licenses/MIT).

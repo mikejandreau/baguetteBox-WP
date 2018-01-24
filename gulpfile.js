@@ -16,7 +16,6 @@ var scriptFile            = 'baguetteBoxWP'; // Compiled JS file name.
 var styleWatchFiles       = './src/scss/**/*.scss'; // Path to source SCSS files
 var scriptJSWatchFiles    = ['./src/js/baguetteBox.js', './src/js/baguetteBox-init.js']; // Path to JS files in order.
 var projectPHPWatchFiles  = './**/*.php'; // Path to all PHP files
-// var scriptJSWatchFiles    = './src/js/**/*.js'; // Path to source JS files
 
 // Browsers we care about for autoprefixing
 const AUTOPREFIXER_BROWSERS = [

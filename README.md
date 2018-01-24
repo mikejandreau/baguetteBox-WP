@@ -1,29 +1,10 @@
+[![baseinstall](https://img.shields.io/badge/Built%20For%20WordPress-%E2%93%A6-lightgrey.svg?style=flat-square)](https://github.com/mikejandreau/baguetteBox-WP) 
+
 # baguetteBox for WordPress
 
-BaguetteBox.js is a fantastic pure JavaScript lightbox created by Marek Grzybek, aka [feimosi](https://github.com/feimosi/).
+BaguetteBox.js is a pure JavaScript lightbox created by Marek Grzybek, aka [feimosi](https://github.com/feimosi/). It's lightweight, free of dependencies, and I've been using it in static sites and WordPress themes for a couple of years now.
 
-I've been using it for image galleries for some time now, and figured it would be useful as a WordPress plugin. 
-
-
-
-```javascript
-imageElement.getAttribute('data-caption') || imageElement.title || thumbnailElement.alt;
-```
-
-
-https://www.dropbox.com/s/65zphlgpab8h06x/baguetteboxWPaltText.jpg?dl=0
-
-![Demo Page screenshot](https://www.dropbox.com/s/65zphlgpab8h06x/baguetteboxWPaltText.jpg?dl=0)
-
-<img src="https://www.dropbox.com/s/65zphlgpab8h06x/baguetteboxWPaltText.jpg?dl=0" alt="">
-
-test 1
-![Alt text](https://www.dropbox.com/s/65zphlgpab8h06x/baguetteboxWPaltText.jpg?dl=0 "Optional title")
-
-test 2
-![Alt test](https://www.dropbox.com/s/65zphlgpab8h06x/baguetteboxWPaltText.jpg?raw=1 "Optional title")
-
-
+This version is a simple WordPress plugin that will turn your galleries into a click/swipe enabled image slideshow. 
 
 ## Usage
 
@@ -41,6 +22,23 @@ Desktop:
 Mobile:
 * Safari on iOS
 * Chrome on Android
+
+
+## Modifications
+
+This is pretty much a fork of feimosi's work with some minor differences in the main JS file, mainly where the image alt text comes from.
+
+```javascript
+/**
+* Line 518 in baguetteBox.js
+* In addition to data-caption, we're looking at the title or img alt text for the caption
+*/
+imageElement.getAttribute('data-caption') || imageElement.title || thumbnailElement.alt;
+```
+
+For WordPress, that means you can do this:
+
+![Alt Text](https://www.dropbox.com/s/65zphlgpab8h06x/baguetteboxWPaltText.jpg?raw=1)
 
 ## License
 

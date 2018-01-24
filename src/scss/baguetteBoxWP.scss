@@ -2,13 +2,6 @@
 // @author  feimosi
 // @url https://github.com/feimosi/baguetteBox.js
 
-// .baguetteBox,
-// *[class*="baguetteBox"] {
-//     img {
-//         border: 2px solid red;
-//     }
-// }
-
 #baguetteBox-overlay {
     display: none;
     opacity: 0;
@@ -158,10 +151,7 @@
     }
 }
 
-/*
-    Preloader
-    Borrowed from http://tobiasahlin.com/spinkit/
-*/
+// Preloader - borrowed from http://tobiasahlin.com/spinkit/
 .baguetteBox-spinner {
     width: 40px;
     height: 40px;
@@ -197,40 +187,3 @@
         transform: scale(1);
     }
 }
-
-
-
-// $column_margin: 20px;
-
-
-
-
-
-
-
-
-// .gallery {
-//     margin-bottom: 1.5em;
-//     margin-left: -20px;
-//     margin-right: -20px;
-// }
-
-// .gallery-item {
-//     display: inline-block;
-//     text-align: center;
-//     vertical-align: top;
-//     margin-top: 0;
-//     padding: 0 20px;
-//     width: 100%;
-
-//     // Loops to enumerate the classes for gallery columns.
-//     @for $i from 2 through 9 {
-//         .gallery-columns-#{$i} & {
-//             max-width: ( 100% / $i );
-//         }
-//     }
-// }
-
-// .gallery-caption {
-//     display: block;
-// }

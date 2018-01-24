@@ -4,6 +4,17 @@ BaguetteBox.js is a fantastic pure JavaScript lightbox created by Marek Grzybek,
 
 I've been using it for image galleries for some time now, and figured it would be useful as a WordPress plugin. 
 
+
+
+```javascript
+imageElement.getAttribute('data-caption') || imageElement.title || thumbnailElement.alt;
+```
+
+
+https://www.dropbox.com/s/65zphlgpab8h06x/baguetteboxWPaltText.jpg?dl=0
+
+![Demo Page screenshot](https://www.dropbox.com/s/65zphlgpab8h06x/baguetteboxWPaltText.jpg?dl=0)
+
 ## Usage
 
 Download the zip file, install, and activate. That's pretty much it.

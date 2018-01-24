@@ -2,6 +2,8 @@
 
 # baguetteBox for WordPress
 
+Demo: [baguetteBox-WP](http://losaidos.com/dev/wpblank/gallery-demo/)
+
 BaguetteBox.js is a pure JavaScript lightbox created by Marek Grzybek, aka [feimosi](https://github.com/feimosi/). It's lightweight, free of dependencies, and I've been using it in static sites and WordPress themes for a couple of years now.
 
 This version is a simple WordPress plugin that will turn your galleries into a click/swipe enabled image slideshow. 

@@ -15,6 +15,8 @@ https://www.dropbox.com/s/65zphlgpab8h06x/baguetteboxWPaltText.jpg?dl=0
 
 ![Demo Page screenshot](https://www.dropbox.com/s/65zphlgpab8h06x/baguetteboxWPaltText.jpg?dl=0)
 
+<img src="https://www.dropbox.com/s/65zphlgpab8h06x/baguetteboxWPaltText.jpg?dl=0" alt="">
+
 ## Usage
 
 Download the zip file, install, and activate. That's pretty much it.

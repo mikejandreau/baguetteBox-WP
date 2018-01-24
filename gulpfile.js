@@ -1,16 +1,16 @@
 // Project Variables
-var project               = 'Gallery_Slider'; // Project Name.
+var project               = 'BaguetteBoxWP'; // Project Name.
 var projectURL            = 'dev4'; // Project URL. Could be something like localhost:8888.
 var productURL            = './'; // Theme/Plugin URL. Leave it like it is, since our gulpfile.js lives in the root folder.
 
 // Style related
-var styleSRC              = './src/scss/gallery.scss'; // Path to main .scss file.
+var styleSRC              = './src/scss/baguetteBoxWP.scss'; // Path to main .scss file.
 var styleDestination      = './assets/css/'; // Places compiled CSS file in root folder, could also be './assets/css/' or some other folder, just remember to update file path in functions.php
 
 // JavaScript related
 var scriptSRC             = './src/js/*.js'; // Path to JS folder if you don't care about concat order
 var scriptDestination     = './assets/js/'; // Path to save the compiled JS file.
-var scriptFile            = 'gallery'; // Compiled JS file name.
+var scriptFile            = 'baguetteBoxWP'; // Compiled JS file name.
 
 // Watch file paths
 var styleWatchFiles       = './src/scss/**/*.scss'; // Path to source SCSS files

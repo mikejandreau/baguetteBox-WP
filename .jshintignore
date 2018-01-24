@@ -1,0 +1,4 @@
+js/**.min.js
+assets/js/vendor/jquery-2.2.4
+assets/js/vendor/prism
+assets/js/vendor/isotope-pkgd

@@ -1,0 +1,36 @@
+{
+  "name": "timeline-slider",
+  "title": "WordPress plugin that creates a horizontal timeline using the title, excerpt, and link from your list of posts.",
+  "author": "Mike Jandreau",
+  "url": "https://github.com/mikejandreau/timeline-slider",
+  "version": "1.0.0",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/mikejandreau/timeline-slider.git"
+  },
+  "keywords": [
+    "wordpress",
+    "gulp",
+    "scss",
+    "browsersync"
+  ],
+  "devDependencies": {
+    "browser-sync": "^2.11.1",
+    "gulp": "^3.9.1",
+    "gulp-autoprefixer": "^3.1.0",
+    "gulp-concat": "^2.5.2",
+    "gulp-filter": "^4.0.0",
+    "gulp-jshint": "^2.0.4",
+    "gulp-line-ending-corrector": "^1.0.1",
+    "gulp-merge-media-queries": "^0.2.1",
+    "gulp-notify": "^2.2.0",
+    "gulp-rename": "^1.2.0",
+    "gulp-sass": "^2.2.0",
+    "gulp-sourcemaps": "^1.5.2",
+    "gulp-uglify": "^1.5.3",
+    "gulp-uglifycss": "^1.0.6",
+    "jshint": "^2.9.4",
+    "jshint-stylish": "^2.2.1"
+  }
+}

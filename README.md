@@ -17,6 +17,12 @@ https://www.dropbox.com/s/65zphlgpab8h06x/baguetteboxWPaltText.jpg?dl=0
 
 <img src="https://www.dropbox.com/s/65zphlgpab8h06x/baguetteboxWPaltText.jpg?dl=0" alt="">
 
+test 1
+![Alt text](ttps://www.dropbox.com/s/65zphlgpab8h06x/baguetteboxWPaltText.jpg?dl=0 "Optional title")
+
+test 2
+![Alt test](ttps://www.dropbox.com/s/65zphlgpab8h06x/baguetteboxWPaltText.jpg "Optional title")
+
 ## Usage
 
 Download the zip file, install, and activate. That's pretty much it.

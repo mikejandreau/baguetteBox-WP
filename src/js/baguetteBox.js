@@ -510,11 +510,12 @@
         }
 
         // Get element reference, optional caption and source path
+        // For caption this gets either data-caption, link title, or img alt text
         var imageElement = galleryItem.imageElement;
         var thumbnailElement = imageElement.getElementsByTagName('img')[0];
         var imageCaption = typeof options.captions === 'function' ?
-            options.captions.call(currentGallery, imageElement) :
-            imageElement.getAttribute('data-caption') || imageElement.title;
+                            options.captions.call(currentGallery, imageElement) :
+                            imageElement.getAttribute('data-caption') || imageElement.title || thumbnailElement.alt;
         var imageSrc = getImageSrc(imageElement);
 
         // Prepare figure element

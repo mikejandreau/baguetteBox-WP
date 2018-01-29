@@ -12,6 +12,8 @@ This version is a simple WordPress plugin that will turn your galleries into a c
 
 Download the zip file, install, and activate. That's pretty much it.
 
+![Gallery Demo](https://www.dropbox.com/s/lx6kx55av557jcl/gallerydemo1.gif?raw=1)
+
 ## Compatibility
 
 Desktop:
